@@ -12,11 +12,7 @@ The scripts assumes that there is NOT an instance of OpenVPN already installed o
 
 ## Installing OpenVPN
 
-Optionally, you can do a completely automated deployment to Azure and skip past the installation to **Managing Clients**.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fohmex%2Fsimple-openvpn-server%2Fmaster%2Fopenvpn-template.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-
-Otherwise, use the installer:
 
 1. Pull up a terminal or SSH into the target server.
 
@@ -29,7 +25,7 @@ Otherwise, use the installer:
 1. Download the installer script.
 
 	````
-	wget https://raw.githubusercontent.com/ohmex/simple-openvpn-server/master/openvpn.sh
+	wget https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/openvpn.sh
 	````
 
 1. Make the script executable
@@ -47,7 +43,7 @@ Otherwise, use the installer:
 	Example:
 
 	````
-	./openvpn.sh --adminpassword=mypassword --host=myvpn.example.com
+	./openvpn.sh --adminpassword=mypassword --host=myvpn.example.com --vpnport=1194
 	````
 
 
@@ -59,6 +55,10 @@ Otherwise, use the installer:
 
 	**dns2** -- The first dns server assigned to the clients. The default is **8.8.4.4**.
 
+	**vpnnetwork** -- The ip network pool for the vpn connections **10.0.8.0**.
+
+	**route** -- The network behind the vpn server you want to access **10.0.0.0**.
+
 	**vpnport** -- The port to be used by OpenVPN. 1194 may be blocked by some firewalls, so this is customizable. The default port is **1194**.
 
 	**protocol** -- The protocol to be used by OpenVPN. This accepts **udp** or tcp. The default is **udp**.
@@ -67,8 +67,71 @@ Otherwise, use the installer:
 
 1. Let the installer finish. This may take a few minutes, as the intaller generates a few keys to set up a certificate authority (CA) that is used to assign certificates to the clients.
 
-1. If the server you are installing this on is behind a firewall, be sure that you forward the external ports from the firewall to the ports on the server for the VPN. Optionally, if you want to be able to manage the VPN from outside the firewall, forward a port to 443 on the VPN Server.
+1. If the server you are installing this on is behind a firewall, be sure that you forward the external ports from the firewall to the ports on the server for the VPN (1194). Optionally, if you want to be able to manage the VPN from outside the firewall, forward a port to 443 on the VPN Server.
 
+-----
+## restart openvpn
+
+```
+systemctl restart openvpn
+```
+
+-----
+## no persistant ip's so I can multi connect as the same user
+
+```
+//add this line so same cert can be used on mltpl devices:
+duplicate-cn
+//comment this line in /server.conf if you don't want persistant ip's
+//but I like it
+ifconfig-pool-persist ipp.txt
+```
+
+-----
+## logs uncomment log-append only when troubleshooting
+
+```
+//add to server.conf in logging section:
+status openvpn-status.log
+#log-append openvpn.log
+verb 3
+```
+
+-----
+## iptables
+
+Write iptables on boot:
+```
+nano /etc/rc.local
+#!/bin/sh -e
+iptables -t nat -A POSTROUTING -s 10.0.8.0/24 -j SNAT --to 10.0.0.6
+exit 0
+```
+
+Write iptables with iptables -persistant
+```
+apt-get install iptables-persistant
+iptables -t nat -L
+iptables -t nat -A POSTROUTING -s 10.0.8.0/24 -j SNAT --to 10.0.0.6
+iptables-save
+```
+
+-----
+## Once after install and then Every 10 years
+
+```
+cd /etc/openvpn
+cd easy-rsa
+EASYRSA_CRL_DAYS=3650 ./easyrsa gen-crl
+cd pki
+chown www-data:www-data crl.pem
+chmod 755 crl.pem
+cp crl.pem /etc/openvpn/
+openssl crl -in /etc/openvpn/crl.pem -text (check expiration)
+systemctl restart openvpn
+```
+
+-----
 
 ## Managing Profiles
 
