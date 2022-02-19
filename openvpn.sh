@@ -262,13 +262,13 @@ chmod g+s /etc/openvpn/easy-rsa/
 
 #Configure the web server with the lighttpd.conf from GitHub
 mv /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.$$
-wget -O /etc/lighttpd/lighttpd.conf https://raw.githubusercontent.com/ohmex/simple-openvpn-server/master/lighttpd.conf
+wget -O /etc/lighttpd/lighttpd.conf https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/lighttpd.conf
 
 #install the webserver scripts
 rm /var/www/html/*
-wget -O /var/www/html/index.sh https://raw.githubusercontent.com/ohmex/simple-openvpn-server/master/index.sh
-wget -O /var/www/html/download.sh https://raw.githubusercontent.com/ohmex/simple-openvpn-server/master/download.sh
-wget -O /var/www/html/generate.sh https://raw.githubusercontent.com/ohmex/simple-openvpn-server/master/generate.sh
+wget -O /var/www/html/index.sh https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/index.sh
+wget -O /var/www/html/download.sh https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/download.sh
+wget -O /var/www/html/generate.sh https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/generate.sh
 
 chown -R www-data:www-data /var/www/html/
 

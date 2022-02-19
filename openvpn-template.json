@@ -175,7 +175,7 @@
         "typeHandlerVersion":"2.0",
         "autoUpgradeMinorVersion":true,
         "settings":{
-          "fileUris":"[split('https://raw.githubusercontent.com/ohmex/simple-openvpn-server/master/openvpn.sh', ' ')]",
+          "fileUris":"[split('https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/openvpn.sh', ' ')]",
           "commandToExecute":"[concat('bash openvpn.sh --host=', parameters('dnsNameForPublicIP'), '.', resourceGroup().location, '.cloudapp.azure.com --adminpassword=', parameters('adminPassword'))]"
         }
       }
