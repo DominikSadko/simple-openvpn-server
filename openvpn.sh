@@ -265,10 +265,11 @@ mv /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.$$
 wget -O /etc/lighttpd/lighttpd.conf https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/lighttpd.conf
 
 #install the webserver scripts
-rm /var/www/html/*
-wget -O /var/www/html/index.sh https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/index.sh
-wget -O /var/www/html/download.sh https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/download.sh
-wget -O /var/www/html/generate.sh https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/generate.sh
+rm -R /var/www/html/vpn/
+mkdir /var/www/html/vpn/
+wget -O /var/www/html/vpn/index.sh https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/www/index.sh
+wget -O /var/www/html/vpn/download.sh https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/www/download.sh
+wget -O /var/www/html/vpn/generate.sh https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/www/generate.sh
 
 chown -R www-data:www-data /var/www/html/
 
