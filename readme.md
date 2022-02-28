@@ -12,16 +12,6 @@ The scripts assumes that there is NOT an instance of OpenVPN already installed o
 
 ## Installing OpenVPN
 
-
-
-1. Pull up a terminal or SSH into the target server.
-
-1. Logon as root
-
-	````
-	sudo -i
-	````
-
 1. Download the installer script.
 
 	````
