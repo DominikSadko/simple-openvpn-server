@@ -25,7 +25,7 @@ The scripts assumes that there is NOT an instance of OpenVPN already installed o
 1. Download the installer script.
 
 	````
-	wget https://raw.githubusercontent.com/ss7admin/simple-openvpn-server/master/openvpn.sh
+	wget https://raw.githubusercontent.com/DominikSadko/simple-openvpn-server/master/openvpn.sh
 	````
 
 1. Make the script executable
