@@ -276,4 +276,5 @@ chown -R www-data:www-data /var/www/html/
 echo "admin:$ADMINPASSWORD" > /etc/lighttpd/.lighttpdpassword
 
 #restart the web server
-service lighttpd restart
+systemctl restart lighttpd
+systemctl restart openvpn
