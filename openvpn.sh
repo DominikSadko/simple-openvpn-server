@@ -273,7 +273,7 @@ wget -O /var/www/html/generate.sh https://raw.githubusercontent.com/ss7admin/sim
 chown -R www-data:www-data /var/www/html/
 
 #set the password file for the WWW logon
-echo "admin:$ADMINPASSWORD" >> /etc/lighttpd/.lighttpdpassword
+echo "admin:$ADMINPASSWORD" > /etc/lighttpd/.lighttpdpassword
 
 #restart the web server
 service lighttpd restart
